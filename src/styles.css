@@ -1,0 +1,10 @@
+.scrollable {
+  overflow-y: scroll;
+}
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
