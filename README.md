@@ -35,11 +35,13 @@ const Component = () => (
       style={{height: '70vh', border: '1px solid black'}}
       pageParam="page"
       fixed
-      fetchData={api}
+      fetchData={page => {
+        return fetch(`${URL}?page=${page}`);
+      }}
       dataSelector={res => res}
-      metaSelector={res => ({totalPages: 10})}
+      metaSelector={res => res.meta || {totalPages: 10}}
       loader={<div className="loader" />}
-      beforeInitialLoad={() => console.log('Initi')}
+      beforeInitialLoad={() => console.log('Init')}
       afterInitialLoad={() => console.log('Done')}
     >
       {data =>
@@ -54,69 +56,117 @@ const Component = () => (
 );
 ```
 
-For more detailed example you can check out the `examples` folder.
+For more detailed example you can check out the `example` folder.
 
 ### Props:
 
-#### children | function | required
+<table class="tg">
+  <tr>
+    <th class="tg-s6z2">Prop</th>
+    <th class="tg-s268">type</th>
+    <th class="tg-s268">isRequired</th>
+    <th class="tg-s268">defaultValue</th>
+    <th class="tg-s268">Description</th>
+  </tr>
+  <tr>
+    <td class="tg-s268">children</td>
+    <td class="tg-s268">function</td>
+    <td class="tg-s268">true</td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268">Render prop function that provides data that should be rendered.</td>
+  </tr>
+  <tr>
+    <td class="tg-s268">history</td>
+    <td class="tg-s268">object</td>
+    <td class="tg-s268">true</td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268">History object that should be provided by the router. It can be provided by wrapping the component in `withRouter` HOC.</td>
+  </tr>
+  <tr>
+    <td class="tg-s268">location</td>
+    <td class="tg-s268">object</td>
+    <td class="tg-s268">true</td>
+    <td class="tg-s268"></td>
+    <td class="tg-s268">Location object that should be provided by the router It can be provided by wrapping the component in `withRouter` HOC.</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">fetchData</td>
+    <td class="tg-0lax">function</td>
+    <td class="tg-0lax">true</td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax">Function that will fetch the data. It accepts 'page' parameter and It's return value must be a promise.</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">dataSelector</td>
+    <td class="tg-0lax">function</td>
+    <td class="tg-0lax">true</td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax">Function that extracts the data from resolved promise that is being returned by 'fetchData' function. <br>This data will be provided as data inside render prop function</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">metaSelector</td>
+    <td class="tg-0lax">function</td>
+    <td class="tg-0lax">true</td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0lax">Function that extracts the meta data from resolved promise that is being returned by fetchData function. The meta object must contain `totalPages` property.</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">className</td>
+    <td class="tg-0lax">string</td>
+    <td class="tg-0lax">false</td>
+    <td class="tg-0lax">""</td>
+    <td class="tg-0lax">Style your component with classes.</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">style</td>
+    <td class="tg-0lax">object</td>
+    <td class="tg-0lax">false</td>
+    <td class="tg-0lax">{}</td>
+    <td class="tg-0lax">Custom inline styles for the component.</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">pageParam</td>
+    <td class="tg-0lax">string</td>
+    <td class="tg-0lax">false</td>
+    <td class="tg-0lax">"page"</td>
+    <td class="tg-0lax">The query parameter that will control pagination.</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">fixed</td>
+    <td class="tg-0lax">boolean</td>
+    <td class="tg-0lax">false</td>
+    <td class="tg-0lax">false</td>
+    <td class="tg-0lax">Should be set if the component should become scrollable. In that case it must have fixed height. If false, window scroll will control pagination.</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">loader</td>
+    <td class="tg-0lax">JSX element</td>
+    <td class="tg-0lax">false</td>
+    <td class="tg-0lax">&lt;/div&gt;Loading...&lt;/div&gt;</td>
+    <td class="tg-0lax">Custom loader to display on top or bottom of the component while loading more data.</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">beforeInitialLoad</td>
+    <td class="tg-0lax">function</td>
+    <td class="tg-0lax">false</td>
+    <td class="tg-0lax">noop func</td>
+    <td class="tg-0lax">Function that is triggered when the component is mounted and before fetching the data. Convenient to display loading spinner until the initial data is loaded.</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">afterInitialLoad</td>
+    <td class="tg-0lax">function</td>
+    <td class="tg-0lax">false</td>
+    <td class="tg-0lax">noop func</td>
+    <td class="tg-0lax">Function that is triggered when the result of fetchData is resolved. Convenient to hide loading spinner once the data has been loaded.</td>
+  </tr>
+</table>
 
-Render prop function that provides data that should be rendered.
+### Todo:
 
-#### history | object | required
-
-History object that should be provided by the router. It will automatically be
-provided by wrapping the component in `withRouter` HOC.
-
-#### location | object | required
-
-Location object that should be provided by the router It will automatically be
-provided by wrapping the component in `withRouter` HOC.
-
-#### fetchData | function | required
-
-Function that will fetch the data. It's return value must be a promise.
-
-#### dataSelector | function | required
-
-Function that extracts the data from resolved promise returned by fetchData
-function.
-
-#### metaSelector | function | required
-
-Function that extracts the meta data from resolved promise returned by fetchData
-function. meta object must contain `totalPages` property.
-
-#### className | string | default: ''
-
-Style your component with classes.
-
-#### style | object | default: {}
-
-Custom styles for the component.
-
-#### pageParam | string | default: 'page'
-
-The query parameter that will control pagination.
-
-#### fixed | boolean | default: false
-
-Checks if the component should be scrollable or not.
-
-#### loader | JSX element | default: `<div>Loading...</div>`
-
-Custom loader to display on top or bottom of the component while loading more
-data.
-
-#### beforeInitialLoad | function | default: noop function
-
-Function that gets triggered when the component is mounted and before fetching
-the data. Convinient to show some loader spinner until the initial data is
-loaded.
-
-#### afterInitialLoad | function | default: noop function
-
-Function that gets triggered when the result of fetchData has resolved.
-Convinient to hide loader when the data has been loaded.
+- Make independent of react-router (At the moment, the user must wrap it inside
+  `withRouter` to be able to use it properly )
+- Add option to add top and bottom offset. (At the moment, it scrolls up and
+  down when scroller reaches top and bottom.)
 
 ## License
 
