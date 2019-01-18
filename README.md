@@ -163,8 +163,8 @@ For more detailed example you can check out the `example` folder.
 
 ### Todo:
 
-- Make independent of react-router (At the moment, the user must wrap it inside
-  `withRouter` to be able to use it properly )
+- Make it independent of react-router (At the moment, the user must wrap it
+  inside `withRouter` to be able to use it properly )
 - Add option to add top and bottom offset. (At the moment, it scrolls up and
   down when scroller reaches top and bottom.)
 
