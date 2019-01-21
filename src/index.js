@@ -4,7 +4,7 @@ import {object, string, bool, func, node, shape} from 'prop-types';
 
 import './styles.css';
 
-class InfinitePage extends React.Component {
+class ReactScrollablePagination extends React.Component {
   static propTypes = {
     style: object,
     className: string,
@@ -196,4 +196,4 @@ class InfinitePage extends React.Component {
   }
 }
 
-export default InfinitePage;
+export default ReactScrollablePagination;
