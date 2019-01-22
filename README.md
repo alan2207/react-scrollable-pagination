@@ -9,26 +9,6 @@
 
 ![Demo](demo.gif?raw=true 'Demo')
 
-## Why use it?
-
-With normal infinite scroll, you would scroll the content couple of pages down,
-navigate to different screen and when you want to return to your paginated list
-of content, it would be restarted to the first page, and your loaded content
-would be gone. You would have to scroll over again, which is very annoying.
-Unless you somehow keep track of the state and which page you are currently on.
-This is why you would use something like this component. It keeps track of state
-changes internally and you don't have to worry about it. Just tell the component
-how you want to fetch and display the content and you are good to go.
-
-## How does it work?
-
-The user starts scrolling. When bottom or top is reached, it reads the
-`pageParam` query parameter from the URL, updates it depending on which page are
-you trying to load, and then pushes the new URL via `history`. Then the updated
-query parameter value is being passed to `fetchData` function and new data is
-being fetched. The state of the component is replaced with the new state and the
-data is being rerendered via render prop function.
-
 ## Installation
 
 ```bash
