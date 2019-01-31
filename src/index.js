@@ -36,7 +36,7 @@ class ReactScrollablePagination extends React.Component {
 
   state = {
     data: [],
-    meta: null,
+    meta: {totalPages: 1},
     isLoading: false,
     scrollingDirection: '',
   };
@@ -91,14 +91,14 @@ class ReactScrollablePagination extends React.Component {
             if (fixed) {
               if (toPage > fromPage) {
                 this.scroller.scrollTop = 10;
-              } else {
+              } else if (toPage < fromPage) {
                 this.scroller.scrollTop =
                   this.scroller.scrollHeight - this.scroller.clientHeight - 10;
               }
             } else {
               if (toPage > fromPage) {
                 this.scroller.scrollTop = 10; // TODO - make it controllable for non-fixed
-              } else {
+              } else if (toPage < fromPage) {
                 this.scroller.scrollTop =
                   this.scroller.scrollHeight - window.innerHeight - 10;
               }
@@ -187,7 +187,7 @@ class ReactScrollablePagination extends React.Component {
         {this.state.isLoading && this.state.scrollingDirection === 'up' && (
           <div className="loader-container">{loader}</div>
         )}
-        {children(this.state.data)}
+        {children(this.state.data, this.state.meta)}
         {this.state.isLoading && this.state.scrollingDirection === 'down' && (
           <div className="loader-container">{loader}</div>
         )}
