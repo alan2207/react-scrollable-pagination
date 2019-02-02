@@ -48,11 +48,12 @@ const Component = () => (
       beforeInitialLoad={() => console.log('Init')}
       afterInitialLoad={() => console.log('Done')}
     >
-      /* you will probably need to give minHeight of the div to be at least the
-      same as the height of the component itself, to maintain scrollability even
-      when there is not enough items to overflow. but if you have only one page,
-      setting won't be neccessary so make sure you have more than one page
-      before giving it minHeight property */
+      /* IF USING FIXED: you will probably need to give minHeight of the div to
+      be at least the same as the height of the component itself, to maintain
+      scrollability even when there is not enough items to overflow. But if you
+      have only one page, setting won't be neccessary, and will only add
+      unneccessary scrollbar, so make sure you have more than one page before
+      giving it the minHeight property */
       {(data, meta) => (
         <div style={meta.totalPages > 1 ? {minHeight: '70vh'} : {}}>
           data.map(item => (
